@@ -1,5 +1,4 @@
-# temp stage
-FROM python:3-slim as builder
+FROM python:3-slim
 
 # Sets directory
 WORKDIR /app
@@ -30,19 +29,6 @@ ENV PATH="/home/appuser/projects/myenv/bin:$PATH"
 COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-
-
-# final stage
-FROM python:3-slim
-
-# Creates multistage build
-COPY --from=builder /home/appuser/projects/myenv /home/appuser/projects/myenv
-
-# Sets directory
-WORKDIR /app
-
-# Sets Python environment
-ENV PATH="/home/appuser/projects/myenv/bin:$PATH"
 
 # Sets container's process
 COPY . /app
