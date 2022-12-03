@@ -1,4 +1,5 @@
-FROM python:3-slim
+# temp stage
+FROM python:3-slim as builder
 
 # Sets directory
 WORKDIR /app
@@ -25,10 +26,23 @@ USER appuser
 RUN python3 -m venv /home/appuser/projects/myenv
 ENV PATH="/home/appuser/projects/myenv/bin:$PATH"
 
-# Install pip requirements from the file via "pip freeze > requirements.txt"
+# Install pip requirements from the file via bash command "pip freeze > requirements.txt"
 COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+
+
+# final stage
+FROM python:3-slim
+
+# Creates multistage build
+COPY --from=builder /home/appuser/projects/myenv /home/appuser/projects/myenv
+
+# Sets directory
+WORKDIR /app
+
+# Sets Python environment
+ENV PATH="/home/appuser/projects/myenv/bin:$PATH"
 
 # Sets container's process
 COPY . /app
