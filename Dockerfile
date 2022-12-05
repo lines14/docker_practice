@@ -37,12 +37,15 @@ COPY --from=builder /home/appuser/projects/myenv /home/appuser/projects/myenv
 # Sets directory
 WORKDIR /app
 
+RUN apk add --update openssl && \
+    rm -rf /var/cache/apk/*
+
 # Sets Python environment
 ENV PATH="/home/appuser/projects/myenv/bin:$PATH"
 
 # Sets container's process
 COPY . .
 
-EXPOSE 2223
+EXPOSE 443
 
-ENTRYPOINT ["python3", "server_socket_autostart_script.py"]
+ENTRYPOINT ["python3", "TLS_server_socket_autostart_script.py"]
