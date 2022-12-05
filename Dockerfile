@@ -19,33 +19,39 @@ RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /
 USER appuser
 
 # Creates Python environment
-RUN python3 -m venv /home/appuser/projects/myenv
-ENV PATH="/home/appuser/projects/myenv/bin:$PATH"
+RUN python3 -m venv /app/myenv
+ENV PATH="/app/myenv/bin:$PATH"
 
 # Install pip requirements from the file via bash command "pip freeze > requirements.txt"
-COPY requirements.txt .
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
 
 
 # final stage
 FROM python:3-alpine
 
-# Creates multistage build
-COPY --from=builder /home/appuser/projects/myenv /home/appuser/projects/myenv
-
 # Sets directory
 WORKDIR /app
+
+# Creates multistage build
+COPY --from=builder /app/myenv /app/myenv
 
 RUN apk add --update openssl && \
     rm -rf /var/cache/apk/*
 
 # Sets Python environment
-ENV PATH="/home/appuser/projects/myenv/bin:$PATH"
+ENV PATH="/app/myenv/bin:$PATH"
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Generating fresh TLS certificates
+COPY TLS_certificate_generator.sh .
+RUN chmod +x TLS_certificate_generator.sh
+RUN ./TLS_certificate_generator.sh
 
 # Sets container's process
 COPY . .
 
-EXPOSE 443
+EXPOSE 2223
 
 ENTRYPOINT ["python3", "TLS_server_socket_autostart_script.py"]

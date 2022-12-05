@@ -35,13 +35,13 @@ SOCKET_PORT = int(SOCKET_PORT)
 out = f'connected to {stun.get_ip_info()[1]} => {INTERNAL_HOST_IP}\nПакет возвращён успешно: '
 
 context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-context.load_cert_chain('/home/lines14/projects/Server-chain-certificate.pem', '/home/lines14/projects/Server-private-key.key')
+context.load_cert_chain('/app/Server-chain-certificate.pem', '/app/Server-private-key.key')
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-    with context.wrap_socket(sock, server_side=True) as ssock:
-        ssock.bind(('', SOCKET_PORT))
-        ssock.listen(5)
+    sock.bind(('', SOCKET_PORT))
+    sock.listen(5)
 
+    with context.wrap_socket(sock, server_side=True) as ssock:
         while True:
             conn, addr = ssock.accept()
 
