@@ -28,20 +28,19 @@ dotenv.load_dotenv()
 
 # get() в случае отсутствия входящих данных выводит None вместо ошибки:
 
-INTERNAL_HOST_IP = os.environ.get('INTERNAL_HOST_IP')
 SOCKET_PORT = os.environ.get('SOCKET_PORT')
 SOCKET_PORT = int(SOCKET_PORT)
 
-out = f'connected to {stun.get_ip_info()[1]} => {INTERNAL_HOST_IP}\nПакет возвращён успешно: '
+out = f'connected to {stun.get_ip_info()[1]}\nПакет возвращён успешно: '
 
 context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 context.load_cert_chain('/app/Server-chain-certificate.pem', '/app/Server-private-key.key')
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-    sock.bind(('', SOCKET_PORT))
-    sock.listen(5)
-
     with context.wrap_socket(sock, server_side=True) as ssock:
+        ssock.bind(('', SOCKET_PORT))
+        ssock.listen(5)
+
         while True:
             conn, addr = ssock.accept()
 
