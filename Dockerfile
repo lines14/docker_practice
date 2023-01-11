@@ -35,23 +35,15 @@ WORKDIR /app
 # Creates multistage build
 COPY --from=builder /app/myenv /app/myenv
 
-RUN apk add --update openssl && \
-    rm -rf /var/cache/apk/*
-
 # Sets Python environment
 ENV PATH="/app/myenv/bin:$PATH"
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-# Generating fresh TLS certificates
-COPY TLS_certificate_generator.sh .
-RUN chmod +x TLS_certificate_generator.sh
-RUN ./TLS_certificate_generator.sh
+RUN pip install -r requirements.txt --use-pep517
 
 # Sets container's process
 COPY . .
 
-EXPOSE 2223
+EXPOSE 2224
 
-ENTRYPOINT ["python3", "TLS_server_socket_autostart_script.py"]
+ENTRYPOINT ["python3", "judicial_bot.py"]
