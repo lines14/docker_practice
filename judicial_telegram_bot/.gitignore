@@ -1,7 +1,0 @@
-.env
-requirements.txt
-files_from_images/
-documents/
-modules/config.py
-modules/template.py
-modules/template_reserve.py

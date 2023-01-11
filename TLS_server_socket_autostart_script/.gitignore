@@ -1,6 +1,0 @@
-.env
-requirements.txt
-Server-chain-certificate.pem
-Server-private-key.key
-files_from_images/
-TLS_certificate_generator.sh
