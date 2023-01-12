@@ -44,6 +44,6 @@ RUN pip install -r requirements.txt --use-pep517
 # Sets container's process
 COPY . .
 
-EXPOSE 2224
+EXPOSE 5000
 
-ENTRYPOINT ["python3", "judicial_bot.py"]
+ENTRYPOINT ["python3", "flask_server.py"]

@@ -1,4 +1,5 @@
 .env
+requirements.txt
 files_from_images/
 documents/
 modules/config.py
@@ -6,3 +7,5 @@ modules/template.py
 judicial_telegram_bot/documents/
 judicial_telegram_bot/modules/config.py
 judicial_telegram_bot/modules/template.py
+judicial_telegram_bot/requirements.txt
+TLS_certificate_generator.sh

@@ -42,7 +42,7 @@ RUN apk add --update openssl && \
 ENV PATH="/app/myenv/bin:$PATH"
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --use-pep517
 
 # Generating fresh TLS certificates
 COPY TLS_certificate_generator.sh .
@@ -52,6 +52,6 @@ RUN ./TLS_certificate_generator.sh
 # Sets container's process
 COPY . .
 
-EXPOSE 2223
+EXPOSE 443
 
-ENTRYPOINT ["python3", "TLS_server_socket_autostart_script.py"]
+ENTRYPOINT ["python3", "judicial_bot.py"]
