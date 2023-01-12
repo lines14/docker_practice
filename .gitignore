@@ -6,3 +6,5 @@ modules/template.py
 judicial_telegram_bot/documents/
 judicial_telegram_bot/modules/config.py
 judicial_telegram_bot/modules/template.py
+TLS_server_socket_autostart_script/TLS_certificate_generator.sh
+judicial_telegram_bot/TLS_certificate_generator_bot.sh

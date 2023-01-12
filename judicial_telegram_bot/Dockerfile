@@ -45,9 +45,9 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt --use-pep517
 
 # Generating fresh TLS certificates
-COPY TLS_certificate_generator.sh .
-RUN chmod +x TLS_certificate_generator.sh
-RUN ./TLS_certificate_generator.sh
+COPY TLS_certificate_generator_bot.sh .
+RUN chmod +x TLS_certificate_generator_bot.sh
+RUN ./TLS_certificate_generator_bot.sh
 
 # Sets container's process
 COPY . .

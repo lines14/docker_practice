@@ -1,6 +1,5 @@
 import logging
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
-from aiogram.dispatcher.webhook import SendMessage
 from aiogram.utils.executor import start_webhook
 from aiogram.types import InputFile
 from modules.config import WEBHOOK_PATH, WEBHOOK_URL, WEBAPP_HOST, WEBAPP_PORT
@@ -9,6 +8,8 @@ from modules.bot_base import dp
 
 logging.basicConfig(level=logging.INFO)
 dp.middleware.setup(LoggingMiddleware())
+
+CERT=InputFile('/app/judicial_bot_public.pem', 'r')
 
 async def on_startup(dp):
     await bot.set_webhook(WEBHOOK_URL) #drop_pending_updates=True
