@@ -26,7 +26,6 @@ LICENSE
 README.md
 **/.env
 **/files_from_images
-**/judicial_telegram_bot
 **/templates
 **/TLS_server_socket_autostart_script
 **/flask_server
